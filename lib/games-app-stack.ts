@@ -16,6 +16,15 @@ export class GamesAppStack extends cdk.Stack {
       memorySize: 128,
     });
 
+    const gamesFnURL = gamesFn.addFunctionUrl({
+      authType: lambda.FunctionUrlAuthType.AWS_IAM,
+      cors: {
+        allowedOrigins: ["*"],
+      },
+    });
+
+    new cdk.CfnOutput(this, "Games Function Url", { value: gamesFnURL.url });
+
   }
 }
 
