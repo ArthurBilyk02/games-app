@@ -73,10 +73,35 @@ export class GamesAppStack extends cdk.Stack {
       },
     });
 
+    const getAllGamesFn = new lambdanode.NodejsFunction(
+      this,
+      "GetAllGamesFn",
+      {
+        architecture: lambda.Architecture.ARM_64,
+        runtime: lambda.Runtime.NODEJS_18_X,
+        entry: `${__dirname}/../lambdas/getAllGames.ts`, 
+        timeout: cdk.Duration.seconds(10),
+        memorySize: 128,
+        environment: {
+          TABLE_NAME: gamesTable.tableName,
+          REGION: 'eu-west-1',
+        },
+      }
+    );
+
+    const getAllGamesURL = getAllGamesFn.addFunctionUrl({
+      authType: lambda.FunctionUrlAuthType.NONE,
+      cors: {
+        allowedOrigins: ["*"],
+      },
+    });
+
     gamesTable.grantReadData(getGameByIdFn);
+    gamesTable.grantReadData(getAllGamesFn)
 
     new cdk.CfnOutput(this, "Games Function Url", { value: gamesFnURL.url });
     new cdk.CfnOutput(this, "Get Game Function Url", { value: getGameByIdURL.url });
+    new cdk.CfnOutput(this, "Get All Games Function Url", { value: getAllGamesURL.url });
   }
 }
 
