@@ -146,18 +146,31 @@ export class GamesAppStack extends cdk.Stack {
   },
 });
 
+const deleteGameFn = new lambdanode.NodejsFunction(this, "DeleteGameFn", {
+  architecture: lambda.Architecture.ARM_64,
+  runtime: lambda.Runtime.NODEJS_18_X,
+  entry: `${__dirname}/../lambdas/deleteGame.ts`,
+  timeout: cdk.Duration.seconds(10),
+  memorySize: 128,
+  environment: {
+    TABLE_NAME: gamesTable.tableName,
+    REGION: "eu-west-1",
+  },
+});
+
 
     gamesTable.grantReadData(getGameByIdFn);
     gamesTable.grantReadData(getAllGamesFn);
     gameDevelopersTable.grantReadData(getGameDevelopersFn);
     gamesTable.grantReadData(getGameDevelopersFn);
     gamesTable.grantReadWriteData(newGameFn);
+    gamesTable.grantWriteData(deleteGameFn);
   
 
-    new cdk.CfnOutput(this, "Games Function Url", { value: gamesFnURL.url });
-    new cdk.CfnOutput(this, "Get Game Function Url", { value: getGameByIdURL.url });
-    new cdk.CfnOutput(this, "Get All Games Function Url", { value: getAllGamesURL.url });
-    new cdk.CfnOutput(this, "Get Game Developers Function Url", { value: getGameDevelopersURL.url });
+    // new cdk.CfnOutput(this, "Games Function Url", { value: gamesFnURL.url });
+    // new cdk.CfnOutput(this, "Get Game Function Url", { value: getGameByIdURL.url });
+    // new cdk.CfnOutput(this, "Get All Games Function Url", { value: getAllGamesURL.url });
+    // new cdk.CfnOutput(this, "Get Game Developers Function Url", { value: getGameDevelopersURL.url });
 
   const api = new apig.RestApi(this, "GameAPI", {
     description: "Game App API",
@@ -187,6 +200,11 @@ export class GamesAppStack extends cdk.Stack {
   gamesEndpoint.addMethod(
     "POST",
     new apig.LambdaIntegration(newGameFn, { proxy: true })
+  );
+
+  gameEndpoint.addMethod(
+    "DELETE",
+    new apig.LambdaIntegration(deleteGameFn, { proxy: true })
   );
 
   new cdk.CfnOutput(this, "API Gateway URL", { value: api.url });

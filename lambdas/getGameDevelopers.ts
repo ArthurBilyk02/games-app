@@ -75,7 +75,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
  );
     const developersData = commandOutput.Items;
 
-    let gameData = null;
+    let gameData: Record<string, any> | undefined = undefined;
     if (facts) {
         const gameCommandInput: GetCommandInput = {
         TableName: process.env.GAMES_TABLE_NAME,
