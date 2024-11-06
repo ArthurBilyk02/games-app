@@ -174,8 +174,50 @@ export const gameDevelopers: GameDeveloper[] = [
     },
     {
        gameId: 3,
-       developerName: "Joe Bloggs",
-       roleName: "Creative Director",
-       roleDescription: "In charge of creative direction",
+       developerName: "Alice Springs",
+       roleName: "Sound Designer",
+       roleDescription: "Responsible for in-game sound effects",
     },
-   ];
+    {
+       gameId: 4,
+       developerName: "Sam Yates",
+       roleName: "Lead Programmer",
+       roleDescription: "Manages the game's codebase",
+    },
+    {
+       gameId: 5,
+       developerName: "Oliver Queen",
+       roleName: "Art Director",
+       roleDescription: "Oversees all visual aspects",
+    },
+    {
+       gameId: 6,
+       developerName: "Robert Miles",
+       roleName: "Animator",
+       roleDescription: "Handles character animations",
+    },
+    {
+       gameId: 7,
+       developerName: "Chris Lane",
+       roleName: "Systems Designer",
+       roleDescription: "Designs in-game systems and features",
+    },
+    {
+       gameId: 8,
+       developerName: "Tom Jacobs",
+       roleName: "Marketing Specialist",
+       roleDescription: "Handles promotional activities and campaigns",
+    },
+    {
+       gameId: 9,
+       developerName: "Daniel Reed",
+       roleName: "Cinematics Director",
+       roleDescription: "Directs in-game cinematics and story sequences",
+    },
+    {
+       gameId: 10,
+       developerName: "Michael Scott",
+       roleName: "Game Designer",
+       roleDescription: "Works on game mechanics and player interactions",
+    }
+];

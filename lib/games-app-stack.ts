@@ -5,9 +5,8 @@ import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as custom from "aws-cdk-lib/custom-resources";
 import { generateBatch } from "../shared/util";
 import {games, gameDevelopers} from "../seed/games";
-
+import * as apig from "aws-cdk-lib/aws-apigateway";
 import { Construct } from 'constructs';
-import { get } from 'http';
 
 export class GamesAppStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -98,7 +97,7 @@ export class GamesAppStack extends cdk.Stack {
         timeout: cdk.Duration.seconds(10),
         memorySize: 128,
         environment: {
-          TABLE_NAME: gamesTable.tableName,
+          GAMES_TABLE_NAME: gamesTable.tableName,
           REGION: 'eu-west-1',
         },
       }
@@ -122,6 +121,7 @@ export class GamesAppStack extends cdk.Stack {
         memorySize: 128,
         environment: {
           DEVELOPERS_TABLE_NAME: gameDevelopersTable.tableName,
+          GAMES_TABLE_NAME: gamesTable.tableName,
           REGION: "eu-west-1",
  },
  }
@@ -144,6 +144,33 @@ export class GamesAppStack extends cdk.Stack {
     new cdk.CfnOutput(this, "Get Game Function Url", { value: getGameByIdURL.url });
     new cdk.CfnOutput(this, "Get All Games Function Url", { value: getAllGamesURL.url });
     new cdk.CfnOutput(this, "Get Game Developers Function Url", { value: getGameDevelopersURL.url });
-  }
+
+  const api = new apig.RestApi(this, "GameAPI", {
+    description: "Game App API",
+    deployOptions: {
+      stageName: "dev",
+    },
+    defaultCorsPreflightOptions: {
+      allowHeaders: ["Content-Type", "X-Amz-Date"],
+      allowMethods: ["OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE"],
+      allowCredentials: true,
+      allowOrigins: ["*"],
+    },
+  });
+
+  const gamesEndpoint = api.root.addResource("games");
+  gamesEndpoint.addMethod(
+    "GET",
+    new apig.LambdaIntegration(getAllGamesFn, { proxy: true })
+  );
+
+  const gameEndpoint = gamesEndpoint.addResource("{gameId}");
+  gameEndpoint.addMethod(
+    "GET",
+    new apig.LambdaIntegration(getGameByIdFn, { proxy: true })
+  );
+
+  new cdk.CfnOutput(this, "API Gateway URL", { value: api.url });
+}
 }
 
