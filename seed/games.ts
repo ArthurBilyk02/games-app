@@ -1,4 +1,4 @@
-import {Game} from '../shared/types'
+import {Game, GameDeveloper} from '../shared/types'
 
 export const games : Game[] = [
 {
@@ -152,3 +152,30 @@ export const games : Game[] = [
         is_multiplayer: true
     }
 ]
+
+export const gameDevelopers: GameDeveloper[] = [
+    {
+       gameId: 1,
+       developerName: "Joe Bloggs",
+       roleName: "Lead Character Designer",
+       roleDescription: "In charge of character design",
+    },
+    {
+       gameId: 1,
+       developerName: "Alice Broggs",
+       roleName: "Lead Game Designer",
+       roleDescription: "In charge of game design",
+    },
+    {
+       gameId: 2,
+       developerName: "Joe Cloggs",
+       roleName: "Graphic Designer",
+       roleDescription: "In charge of graphics",
+    },
+    {
+       gameId: 3,
+       developerName: "Joe Bloggs",
+       roleName: "Creative Director",
+       roleDescription: "In charge of creative direction",
+    },
+   ];

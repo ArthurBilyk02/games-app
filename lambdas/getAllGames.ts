@@ -7,13 +7,13 @@ const ddbDocClient = createDDbDocClient();
 export const handler: Handler = async (event) => {
   try {
     console.log("Event: ", JSON.stringify(event));
-    // Scan the DynamoDB table
+    
     const commandOutput = await ddbDocClient.send(
       new ScanCommand({
         TableName: process.env.TABLE_NAME,
       })
     );
-    // Check if items were found
+    
     if (!commandOutput.Items || commandOutput.Items.length === 0) {
       return {
         statusCode: 404,
@@ -24,9 +24,9 @@ export const handler: Handler = async (event) => {
       };
     }
     const body = {
-      data: commandOutput.Items, // Return the items found
+      data: commandOutput.Items, 
     };
-    // Return Response
+    
     return {
       statusCode: 200,
       headers: {
