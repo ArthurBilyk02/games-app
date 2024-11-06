@@ -4,6 +4,9 @@ import {
   DynamoDBDocumentClient,
   QueryCommand,
   QueryCommandInput,
+  GetCommand,
+  GetCommandInput
+    
 } from "@aws-sdk/lib-dynamodb";
 
 const ddbDocClient = createDocumentClient();
@@ -31,8 +34,12 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
  };
  }
     const gameId = parseInt(queryParams?.gameId);
+    const facts = queryParams.facts === "true";
+
     let commandInput: QueryCommandInput = {
-      TableName: process.env.CAST_TABLE_NAME,
+      TableName: process.env.DEVELOPERS_TABLE_NAME,
+      KeyConditionExpression: "gameId = :g",
+      ExpressionAttributeValues: { ":g": gameId },
  };
     if ("roleName" in queryParams) {
       commandInput = {
@@ -66,6 +73,19 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
     const commandOutput = await ddbDocClient.send(
       new QueryCommand(commandInput)
  );
+    const developersData = commandOutput.Items;
+
+    let gameData = null;
+    if (facts) {
+        const gameCommandInput: GetCommandInput = {
+        TableName: process.env.GAMES_TABLE_NAME,
+        Key: { id: gameId },
+        ProjectionExpression: "title, genre_ids, description",
+      };
+
+    const gameCommandOutput = await ddbDocClient.send(new GetCommand(gameCommandInput));
+    gameData = gameCommandOutput.Item;
+    }
 
     return {
       statusCode: 200,
@@ -73,7 +93,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
         "content-type": "application/json",
  },
       body: JSON.stringify({
-        data: commandOutput.Items,
+        game: facts ? gameData : undefined,
+        developers: developersData,
  }),
  };
  } catch (error: any) {

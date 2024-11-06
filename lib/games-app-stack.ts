@@ -7,6 +7,7 @@ import { generateBatch } from "../shared/util";
 import {games, gameDevelopers} from "../seed/games";
 
 import { Construct } from 'constructs';
+import { get } from 'http';
 
 export class GamesAppStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -120,7 +121,7 @@ export class GamesAppStack extends cdk.Stack {
         timeout: cdk.Duration.seconds(10),
         memorySize: 128,
         environment: {
-          CAST_TABLE_NAME: gameDevelopersTable.tableName,
+          DEVELOPERS_TABLE_NAME: gameDevelopersTable.tableName,
           REGION: "eu-west-1",
  },
  }
@@ -136,6 +137,8 @@ export class GamesAppStack extends cdk.Stack {
     gamesTable.grantReadData(getGameByIdFn);
     gamesTable.grantReadData(getAllGamesFn);
     gameDevelopersTable.grantReadData(getGameDevelopersFn);
+    gamesTable.grantReadData(getGameDevelopersFn);
+  
 
     new cdk.CfnOutput(this, "Games Function Url", { value: gamesFnURL.url });
     new cdk.CfnOutput(this, "Get Game Function Url", { value: getGameByIdURL.url });
