@@ -1,0 +1,93 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "Game": {
+            "additionalProperties": false,
+            "properties": {
+                "cover_image_path": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "developer": {
+                    "type": "string"
+                },
+                "genre_ids": {
+                    "items": {
+                        "type": "number"
+                    },
+                    "type": "array"
+                },
+                "id": {
+                    "type": "number"
+                },
+                "is_multiplayer": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "platform": {
+                    "type": "string"
+                },
+                "popularity": {
+                    "type": "number"
+                },
+                "publisher": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                },
+                "rating_count": {
+                    "type": "number"
+                },
+                "release_date": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "cover_image_path",
+                "description",
+                "developer",
+                "genre_ids",
+                "id",
+                "is_multiplayer",
+                "name",
+                "platform",
+                "popularity",
+                "publisher",
+                "rating",
+                "rating_count",
+                "release_date"
+            ],
+            "type": "object"
+        },
+        "GameDeveloper": {
+            "additionalProperties": false,
+            "properties": {
+                "developerName": {
+                    "type": "string"
+                },
+                "gameId": {
+                    "type": "number"
+                },
+                "roleDescription": {
+                    "type": "string"
+                },
+                "roleName": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "developerName",
+                "gameId",
+                "roleDescription",
+                "roleName"
+            ],
+            "type": "object"
+        }
+    }
+}
+

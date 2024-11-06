@@ -134,10 +134,24 @@ export class GamesAppStack extends cdk.Stack {
  },
  });    
 
+ const newGameFn = new lambdanode.NodejsFunction(this, "AddGameFn", {
+  architecture: lambda.Architecture.ARM_64,
+  runtime: lambda.Runtime.NODEJS_18_X,
+  entry: `${__dirname}/../lambdas/addGame.ts`,
+  timeout: cdk.Duration.seconds(10),
+  memorySize: 128,
+  environment: {
+    TABLE_NAME: gamesTable.tableName,
+    REGION: "eu-west-1",
+  },
+});
+
+
     gamesTable.grantReadData(getGameByIdFn);
     gamesTable.grantReadData(getAllGamesFn);
     gameDevelopersTable.grantReadData(getGameDevelopersFn);
     gamesTable.grantReadData(getGameDevelopersFn);
+    gamesTable.grantReadWriteData(newGameFn);
   
 
     new cdk.CfnOutput(this, "Games Function Url", { value: gamesFnURL.url });
@@ -168,6 +182,11 @@ export class GamesAppStack extends cdk.Stack {
   gameEndpoint.addMethod(
     "GET",
     new apig.LambdaIntegration(getGameByIdFn, { proxy: true })
+  );
+
+  gamesEndpoint.addMethod(
+    "POST",
+    new apig.LambdaIntegration(newGameFn, { proxy: true })
   );
 
   new cdk.CfnOutput(this, "API Gateway URL", { value: api.url });
