@@ -197,6 +197,12 @@ const deleteGameFn = new lambdanode.NodejsFunction(this, "DeleteGameFn", {
     new apig.LambdaIntegration(getGameByIdFn, { proxy: true })
   );
 
+  const gameDeveloperEndpoint = gamesEndpoint.addResource("developers");
+gameDeveloperEndpoint.addMethod(
+    "GET",
+    new apig.LambdaIntegration(getGameDevelopersFn, { proxy: true })
+);
+
   gamesEndpoint.addMethod(
     "POST",
     new apig.LambdaIntegration(newGameFn, { proxy: true })

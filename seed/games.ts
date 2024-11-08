@@ -76,148 +76,148 @@ export const games : Game[] = [
     publisher: "Blizzard Entertainment",
     is_multiplayer: true
   },
-    {
-        id: 6,
-        name: "Red Dead Redemption 2",
-        genre_ids: [1, 4, 10], // Assuming genre_ids 1 = Action, 10 = Open World
-        platform: "PC, PS4, Xbox One",
-        release_date: "2018-10-26",
-        description: "America, 1899. The end of the Wild West era has begun as lawmen hunt down the last remaining outlaw gangs.",
-        popularity: 91.2,
-        cover_image_path: "/images/red_dead_redemption_2.jpg",
-        rating: 9.8,
-        rating_count: 4100,
-        developer: "Rockstar Games",
-        publisher: "Rockstar Games",
-        is_multiplayer: true
-    },
-    {
-        id: 7,
-        name: "The Legend of Zelda: Breath of the Wild",
-        genre_ids: [4, 6], // Assuming genre_ids 4 = RPG, 6 = Fantasy
-        platform: "Nintendo Switch",
-        release_date: "2017-03-03",
-        description: "Step into a world of discovery, exploration, and adventure in The Legend of Zelda: Breath of the Wild.",
-        popularity: 93.5,
-        cover_image_path: "/images/zelda_breath_of_the_wild.jpg",
-        rating: 9.7,
-        rating_count: 3200,
-        developer: "Nintendo",
-        publisher: "Nintendo",
-        is_multiplayer: false
-    },
-    {
-        id: 8,
-        name: "Super Mario Odyssey",
-        genre_ids: [7, 8], // Assuming genre_ids 7 = Simulation, 8 = Life Simulation
-        platform: "Nintendo Switch",
-        release_date: "2017-10-27",
-        description: "Join Mario on a massive, globe-trotting 3D adventure and use his incredible new abilities to collect Moons so you can power up your airship, the Odyssey, and rescue Princess Peach from Bowser's wedding plans!",
-        popularity: 94.1,
-        cover_image_path: "/images/super_mario_odyssey.jpg",
-        rating: 9.5,
-        rating_count: 2900,
-        developer: "Nintendo",
-        publisher: "Nintendo",
-        is_multiplayer: false
-    },
-    {
-        id: 9,
-        name: "Fortnite",
-        genre_ids: [3, 11], // Assuming genre_ids 11 = Team-Based Shooter
-        platform: "PC, PS4, PS5, Xbox One, Xbox Series X/S, Nintendo Switch",
-        release_date: "2017-07-25",
-        description: "Drop into a colorful, action-packed battle royale game that pits 100 players against each other in a fight for survival.",
-        popularity: 86.8,
-        cover_image_path: "/images/fortnite.jpg",
-        rating: 8.2,
-        rating_count: 1500,
-        developer: "Epic Games",
-        publisher: "Epic Games",
-        is_multiplayer: true
-    },
-    {
-        id: 10,
-        name: "Minecraft",
-        genre_ids: [7, 8], // Assuming genre_ids 7 = Simulation, 8 = Life Simulation
-        platform: "PC, PS4, PS5, Xbox One, Xbox Series X/S, Nintendo Switch",
-        release_date: "2011-11-18",
-        description: "Explore randomly generated worlds and build amazing things from the simplest of homes to the grandest of castles.",
-        popularity: 95.2,
-        cover_image_path: "/images/minecraft.jpg",
-        rating: 9.0,
-        rating_count: 3600,
-        developer: "Mojang Studios",
-        publisher: "Mojang Studios",
-        is_multiplayer: true
-    }
+{
+    id: 6,
+    name: "Red Dead Redemption 2",
+    genre_ids: [1, 4, 10], // Assuming genre_ids 1 = Action, 10 = Open World
+    platform: "PC, PS4, Xbox One",
+    release_date: "2018-10-26",
+    description: "America, 1899. The end of the Wild West era has begun as lawmen hunt down the last remaining outlaw gangs.",
+    popularity: 91.2,
+    cover_image_path: "/images/red_dead_redemption_2.jpg",
+    rating: 9.8,
+    rating_count: 4100,
+    developer: "Rockstar Games",
+    publisher: "Rockstar Games",
+    is_multiplayer: true
+},
+{
+    id: 7,
+    name: "The Legend of Zelda: Breath of the Wild",
+    genre_ids: [4, 6], // Assuming genre_ids 4 = RPG, 6 = Fantasy
+    platform: "Nintendo Switch",
+    release_date: "2017-03-03",
+    description: "Step into a world of discovery, exploration, and adventure in The Legend of Zelda: Breath of the Wild.",
+    popularity: 93.5,
+    cover_image_path: "/images/zelda_breath_of_the_wild.jpg",
+    rating: 9.7,
+    rating_count: 3200,
+    developer: "Nintendo",
+    publisher: "Nintendo",
+    is_multiplayer: false
+},
+{
+    id: 8,
+    name: "Super Mario Odyssey",
+    genre_ids: [7, 8], // Assuming genre_ids 7 = Simulation, 8 = Life Simulation
+    platform: "Nintendo Switch",
+    release_date: "2017-10-27",
+    description: "Join Mario on a massive, globe-trotting 3D adventure and use his incredible new abilities to collect Moons so you can power up your airship, the Odyssey, and rescue Princess Peach from Bowser's wedding plans!",
+    popularity: 94.1,
+    cover_image_path: "/images/super_mario_odyssey.jpg",
+    rating: 9.5,
+    rating_count: 2900,
+    developer: "Nintendo",
+    publisher: "Nintendo",
+    is_multiplayer: false
+},
+{
+    id: 9,
+    name: "Fortnite",
+    genre_ids: [3, 11], // Assuming genre_ids 11 = Team-Based Shooter
+    platform: "PC, PS4, PS5, Xbox One, Xbox Series X/S, Nintendo Switch",
+    release_date: "2017-07-25",
+    description: "Drop into a colorful, action-packed battle royale game that pits 100 players against each other in a fight for survival.",
+    popularity: 86.8,
+    cover_image_path: "/images/fortnite.jpg",
+    rating: 8.2,
+    rating_count: 1500,
+    developer: "Epic Games",
+    publisher: "Epic Games",
+    is_multiplayer: true
+},
+{
+    id: 10,
+    name: "Minecraft",
+    genre_ids: [7, 8], // Assuming genre_ids 7 = Simulation, 8 = Life Simulation
+    platform: "PC, PS4, PS5, Xbox One, Xbox Series X/S, Nintendo Switch",
+    release_date: "2011-11-18",
+    description: "Explore randomly generated worlds and build amazing things from the simplest of homes to the grandest of castles.",
+    popularity: 95.2,
+    cover_image_path: "/images/minecraft.jpg",
+    rating: 9.0,
+    rating_count: 3600,
+    developer: "Mojang Studios",
+    publisher: "Mojang Studios",
+    is_multiplayer: true
+}
 ]
 
 export const gameDevelopers: GameDeveloper[] = [
-    {
-       gameId: 1,
-       developerName: "Joe Bloggs",
-       roleName: "Lead Character Designer",
-       roleDescription: "In charge of character design",
-    },
-    {
-       gameId: 1,
-       developerName: "Alice Broggs",
-       roleName: "Lead Game Designer",
-       roleDescription: "In charge of game design",
-    },
-    {
-       gameId: 2,
-       developerName: "Joe Cloggs",
-       roleName: "Graphic Designer",
-       roleDescription: "In charge of graphics",
-    },
-    {
-       gameId: 3,
-       developerName: "Alice Springs",
-       roleName: "Sound Designer",
-       roleDescription: "Responsible for in-game sound effects",
-    },
-    {
-       gameId: 4,
-       developerName: "Sam Yates",
-       roleName: "Lead Programmer",
-       roleDescription: "Manages the game's codebase",
-    },
-    {
-       gameId: 5,
-       developerName: "Oliver Queen",
-       roleName: "Art Director",
-       roleDescription: "Oversees all visual aspects",
-    },
-    {
-       gameId: 6,
-       developerName: "Robert Miles",
-       roleName: "Animator",
-       roleDescription: "Handles character animations",
-    },
-    {
-       gameId: 7,
-       developerName: "Chris Lane",
-       roleName: "Systems Designer",
-       roleDescription: "Designs in-game systems and features",
-    },
-    {
-       gameId: 8,
-       developerName: "Tom Jacobs",
-       roleName: "Marketing Specialist",
-       roleDescription: "Handles promotional activities and campaigns",
-    },
-    {
-       gameId: 9,
-       developerName: "Daniel Reed",
-       roleName: "Cinematics Director",
-       roleDescription: "Directs in-game cinematics and story sequences",
-    },
-    {
-       gameId: 10,
-       developerName: "Michael Scott",
-       roleName: "Game Designer",
-       roleDescription: "Works on game mechanics and player interactions",
-    }
+{
+    gameId: 1,
+    developerName: "Joe Bloggs",
+    roleName: "Lead Character Designer",
+    roleDescription: "In charge of character design",
+},
+{
+    gameId: 1,
+    developerName: "Alice Broggs",
+    roleName: "Lead Game Designer",
+    roleDescription: "In charge of game design",
+},
+{
+    gameId: 2,
+    developerName: "Joe Cloggs",
+    roleName: "Graphic Designer",
+    roleDescription: "In charge of graphics",
+},
+{
+    gameId: 3,
+    developerName: "Alice Springs",
+    roleName: "Sound Designer",
+    roleDescription: "Responsible for in-game sound effects",
+},
+{
+    gameId: 4,
+    developerName: "Sam Yates",
+    roleName: "Lead Programmer",
+    roleDescription: "Manages the game's codebase",
+},
+{
+    gameId: 5,
+    developerName: "Oliver Queen",
+    roleName: "Art Director",
+    roleDescription: "Oversees all visual aspects",
+},
+{
+    gameId: 6,
+    developerName: "Robert Miles",
+    roleName: "Animator",
+    roleDescription: "Handles character animations",
+},
+{
+    gameId: 7,
+    developerName: "Chris Lane",
+    roleName: "Systems Designer",
+    roleDescription: "Designs in-game systems and features",
+},
+{
+    gameId: 8,
+    developerName: "Tom Jacobs",
+    roleName: "Marketing Specialist",
+    roleDescription: "Handles promotional activities and campaigns",
+},
+{
+    gameId: 9,
+    developerName: "Daniel Reed",
+    roleName: "Cinematics Director",
+    roleDescription: "Directs in-game cinematics and story sequences",
+},
+{
+    gameId: 10,
+    developerName: "Michael Scott",
+    roleName: "Game Designer",
+    roleDescription: "Works on game mechanics and player interactions",
+}
 ];
