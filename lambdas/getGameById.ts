@@ -1,5 +1,5 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, GetCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 
 // Initialization
@@ -8,8 +8,8 @@ const ddbDocClient = createDDbDocClient();
 export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
   try {
     console.log("[EVENT]", JSON.stringify(event));
-    const parameters  = event?.pathParameters;
-    const gameId = parameters?.gameId ? parseInt(parameters.gameId) : undefined;
+    const gameId = event.pathParameters?.gameId;
+    const includeDevelopers = event.queryStringParameters?.developers === "true";
 
     if (!gameId) {
       return {
@@ -23,7 +23,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
     const commandOutput = await ddbDocClient.send(
       new GetCommand({
         TableName: process.env.TABLE_NAME,
-        Key: { id: gameId },
+        Key: { id: parseInt(gameId, 10) },
       })
     );
     if (!commandOutput.Item) {
@@ -35,9 +35,21 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
         body: JSON.stringify({ Message: "Invalid game Id" }),
       };
     }
-    const body = {
+    const body: { data: Record<string, any>; developers?: any[] } = {
       data: commandOutput.Item,
     };
+
+    if (includeDevelopers) {
+      const developersOutput = await ddbDocClient.send(
+        new QueryCommand({
+          TableName: process.env.DEVELOPERS_TABLE_NAME,
+          KeyConditionExpression: "gameId = :gameId",
+          ExpressionAttributeValues: { ":gameId": parseInt(gameId, 10) }
+        })
+      );
+
+      body.developers = developersOutput.Items || [];
+    }
 
     // Return Response
     return {

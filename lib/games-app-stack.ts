@@ -75,6 +75,7 @@ export class GamesAppStack extends cdk.Stack {
         memorySize: 128,
         environment: {
           TABLE_NAME: gamesTable.tableName,
+          DEVELOPERS_TABLE_NAME: gameDevelopersTable.tableName,
           REGION: 'eu-west-1',
         },
       }
@@ -121,7 +122,6 @@ export class GamesAppStack extends cdk.Stack {
         memorySize: 128,
         environment: {
           DEVELOPERS_TABLE_NAME: gameDevelopersTable.tableName,
-          GAMES_TABLE_NAME: gamesTable.tableName,
           REGION: "eu-west-1",
  },
  }
@@ -162,6 +162,7 @@ const deleteGameFn = new lambdanode.NodejsFunction(this, "DeleteGameFn", {
     gamesTable.grantReadData(getGameByIdFn);
     gamesTable.grantReadData(getAllGamesFn);
     gameDevelopersTable.grantReadData(getGameDevelopersFn);
+    gameDevelopersTable.grantReadData(getGameByIdFn);
     gamesTable.grantReadData(getGameDevelopersFn);
     gamesTable.grantReadWriteData(newGameFn);
     gamesTable.grantWriteData(deleteGameFn);
