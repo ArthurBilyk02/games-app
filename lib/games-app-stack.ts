@@ -25,8 +25,12 @@ export class GamesAppStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY
     });
     this.userPoolId = userPool.userPoolId;
+
     const userPoolClient = new cognito.UserPoolClient(this, 'UserPoolClient', {
       userPool,
+      authFlows: {
+        userPassword: true,
+      },
     });
     this.userPoolClientId = userPoolClient.userPoolClientId;
 
@@ -217,6 +221,9 @@ const deleteGameFn = new lambdanode.NodejsFunction(this, "DeleteGameFn", {
     "ConfirmFn",
     path.join(__dirname, '../lambdas/auth/confirm-signup.ts')
   );
+
+  this.addAuthRoute('signout', 'GET', 'SignoutFn',  path.join(__dirname, '../lambdas/auth/signout.ts'));
+  this.addAuthRoute('signin', 'POST', 'SigninFn',  path.join(__dirname, '../lambdas/auth/signin.ts'));
 
   const gamesEndpoint = api.root.addResource("games");
   gamesEndpoint.addMethod(
