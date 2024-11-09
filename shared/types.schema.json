@@ -97,7 +97,15 @@
                 "email": { "type": "string", "format": "email" }
             },
             "required": ["username", "password", "email"]
-        }
+        },
+        "ConfirmSignUpBody": {
+            "type": "object",
+            "properties": {
+                "username": { "type": "string" },
+                "code": { "type": "string" }
+            },
+            "required": ["username", "code"]
+            } 
     }
 }
 

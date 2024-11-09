@@ -211,6 +211,12 @@ const deleteGameFn = new lambdanode.NodejsFunction(this, "DeleteGameFn", {
     "SignupFn",
     path.join(__dirname, '../lambdas/auth/signup.ts')
   );
+  this.addAuthRoute(
+    "confirm_signup",
+    "POST",
+    "ConfirmFn",
+    path.join(__dirname, '../lambdas/auth/confirm-signup.ts')
+  );
 
   const gamesEndpoint = api.root.addResource("games");
   gamesEndpoint.addMethod(
