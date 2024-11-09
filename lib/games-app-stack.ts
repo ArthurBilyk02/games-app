@@ -9,6 +9,7 @@ import * as apig from "aws-cdk-lib/aws-apigateway";
 import { Construct } from 'constructs';
 import * as cognito from "aws-cdk-lib/aws-cognito";
 import * as path from 'path';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 export class GamesAppStack extends cdk.Stack {
   private auth: apig.IResource;
@@ -192,6 +193,26 @@ const updateGameFn = new lambdanode.NodejsFunction(this, "UpdateGameFn", {
   },
 });
 
+const translateGameFn = new lambdanode.NodejsFunction(this, "TranslateGameFn", {
+  architecture: lambda.Architecture.ARM_64,
+  runtime: lambda.Runtime.NODEJS_18_X,
+  entry: `${__dirname}/../lambdas/translateGame.ts`,
+  timeout: cdk.Duration.seconds(10),
+  memorySize: 128,
+  environment: {
+    TABLE_NAME: gamesTable.tableName,
+    REGION: 'eu-west-1',
+  },
+});
+
+gamesTable.grantReadWriteData(translateGameFn);
+translateGameFn.addToRolePolicy(
+  new iam.PolicyStatement({
+    actions: ['translate:TranslateText'],
+    resources: ['*'], // Limit this as per your security needs
+  })
+);
+
 
     gamesTable.grantReadData(getGameByIdFn);
     gamesTable.grantReadData(getAllGamesFn);
@@ -201,6 +222,7 @@ const updateGameFn = new lambdanode.NodejsFunction(this, "UpdateGameFn", {
     gamesTable.grantReadWriteData(newGameFn);
     gamesTable.grantWriteData(deleteGameFn);
     gamesTable.grantWriteData(updateGameFn);
+    gamesTable.grantReadWriteData(translateGameFn);
 
     // new cdk.CfnOutput(this, "Games Function Url", { value: gamesFnURL.url });
     // new cdk.CfnOutput(this, "Get Game Function Url", { value: getGameByIdURL.url });
@@ -268,6 +290,14 @@ const updateGameFn = new lambdanode.NodejsFunction(this, "UpdateGameFn", {
   gameEndpoint.addMethod(
     "PUT",
     new apig.LambdaIntegration(updateGameFn, { proxy: true })
+  );
+
+const translationEndpoint = gameEndpoint.addResource("translation");
+const languageEndpoint = translationEndpoint.addResource("{language}");
+
+  languageEndpoint.addMethod(
+    "GET",
+    new apig.LambdaIntegration(translateGameFn, { proxy: true })
   );
 
   new cdk.CfnOutput(this, "API Gateway URL", { value: api.url });
