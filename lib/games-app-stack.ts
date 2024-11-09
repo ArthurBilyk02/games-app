@@ -7,10 +7,28 @@ import { generateBatch } from "../shared/util";
 import {games, gameDevelopers} from "../seed/games";
 import * as apig from "aws-cdk-lib/aws-apigateway";
 import { Construct } from 'constructs';
+import * as cognito from "aws-cdk-lib/aws-cognito";
+import * as path from 'path';
 
 export class GamesAppStack extends cdk.Stack {
+  private auth: apig.IResource;
+  public userPoolId: string;
+  public userPoolClientId: string;
+
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+
+    const userPool = new cognito.UserPool(this, 'UserPool', {
+      selfSignUpEnabled: true,
+      signInAliases: { username: true },
+      autoVerify: { email: true },
+      removalPolicy: cdk.RemovalPolicy.DESTROY
+    });
+    this.userPoolId = userPool.userPoolId;
+    const userPoolClient = new cognito.UserPoolClient(this, 'UserPoolClient', {
+      userPool,
+    });
+    this.userPoolClientId = userPoolClient.userPoolClientId;
 
     const gamesFn = new lambdanode.NodejsFunction(this, "GamesFn", {
       architecture: lambda.Architecture.ARM_64,
@@ -186,6 +204,14 @@ const deleteGameFn = new lambdanode.NodejsFunction(this, "DeleteGameFn", {
     },
   });
 
+  this.auth = api.root.addResource("auth");
+  this.addAuthRoute(
+    "signup",
+    "POST",
+    "SignupFn",
+    path.join(__dirname, '../lambdas/auth/signup.ts')
+  );
+
   const gamesEndpoint = api.root.addResource("games");
   gamesEndpoint.addMethod(
     "GET",
@@ -215,6 +241,36 @@ gameDeveloperEndpoint.addMethod(
   );
 
   new cdk.CfnOutput(this, "API Gateway URL", { value: api.url });
+}
+
+private addAuthRoute(
+  resourceName: string,
+  method: string,
+  fnName: string,
+  fnEntry: string,
+  allowCognitoAccess?: boolean
+): void {
+  const commonFnProps = {
+    architecture: lambda.Architecture.ARM_64,
+    timeout: cdk.Duration.seconds(10),
+    memorySize: 128,
+    runtime: lambda.Runtime.NODEJS_18_X,
+    handler: "handler",
+    environment: {
+      USER_POOL_ID: this.userPoolId,
+      CLIENT_ID: this.userPoolClientId,
+      REGION: cdk.Aws.REGION
+    },
+  };
+
+  const resource = this.auth.addResource(resourceName);
+
+  const fn = new lambdanode.NodejsFunction(this, fnName, {
+    ...commonFnProps,
+    entry: fnEntry,
+  });
+
+  resource.addMethod(method, new apig.LambdaIntegration(fn));
 }
 }
 
