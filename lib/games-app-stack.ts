@@ -180,6 +180,18 @@ const deleteGameFn = new lambdanode.NodejsFunction(this, "DeleteGameFn", {
   },
 });
 
+const updateGameFn = new lambdanode.NodejsFunction(this, "UpdateGameFn", {
+  architecture: lambda.Architecture.ARM_64,
+  runtime: lambda.Runtime.NODEJS_18_X,
+  entry: `${__dirname}/../lambdas/updateGame.ts`, // Path to the update Lambda code
+  timeout: cdk.Duration.seconds(10),
+  memorySize: 128,
+  environment: {
+    TABLE_NAME: gamesTable.tableName,
+    REGION: 'eu-west-1',
+  },
+});
+
 
     gamesTable.grantReadData(getGameByIdFn);
     gamesTable.grantReadData(getAllGamesFn);
@@ -188,7 +200,7 @@ const deleteGameFn = new lambdanode.NodejsFunction(this, "DeleteGameFn", {
     gamesTable.grantReadData(getGameDevelopersFn);
     gamesTable.grantReadWriteData(newGameFn);
     gamesTable.grantWriteData(deleteGameFn);
-  
+    gamesTable.grantWriteData(updateGameFn);
 
     // new cdk.CfnOutput(this, "Games Function Url", { value: gamesFnURL.url });
     // new cdk.CfnOutput(this, "Get Game Function Url", { value: getGameByIdURL.url });
@@ -238,10 +250,10 @@ const deleteGameFn = new lambdanode.NodejsFunction(this, "DeleteGameFn", {
   );
 
   const gameDeveloperEndpoint = gamesEndpoint.addResource("developers");
-gameDeveloperEndpoint.addMethod(
+  gameDeveloperEndpoint.addMethod(
     "GET",
     new apig.LambdaIntegration(getGameDevelopersFn, { proxy: true })
-);
+  );
 
   gamesEndpoint.addMethod(
     "POST",
@@ -251,6 +263,11 @@ gameDeveloperEndpoint.addMethod(
   gameEndpoint.addMethod(
     "DELETE",
     new apig.LambdaIntegration(deleteGameFn, { proxy: true })
+  );
+
+  gameEndpoint.addMethod(
+    "PUT",
+    new apig.LambdaIntegration(updateGameFn, { proxy: true })
   );
 
   new cdk.CfnOutput(this, "API Gateway URL", { value: api.url });

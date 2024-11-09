@@ -2,50 +2,25 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "definitions": {
         "Game": {
+            "type": "object",
             "additionalProperties": false,
             "properties": {
-                "cover_image_path": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "developer": {
-                    "type": "string"
-                },
+                "cover_image_path": { "type": "string" },
+                "description": { "type": "string" },
+                "developer": { "type": "string" },
                 "genre_ids": {
-                    "items": {
-                        "type": "number"
-                    },
-                    "type": "array"
+                    "type": "array",
+                    "items": { "type": "number" }
                 },
-                "id": {
-                    "type": "number"
-                },
-                "is_multiplayer": {
-                    "type": "boolean"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "platform": {
-                    "type": "string"
-                },
-                "popularity": {
-                    "type": "number"
-                },
-                "publisher": {
-                    "type": "string"
-                },
-                "rating": {
-                    "type": "number"
-                },
-                "rating_count": {
-                    "type": "number"
-                },
-                "release_date": {
-                    "type": "string"
-                }
+                "id": { "type": "number" },
+                "is_multiplayer": { "type": "boolean" },
+                "name": { "type": "string" },
+                "platform": { "type": "string" },
+                "popularity": { "type": "number" },
+                "publisher": { "type": "string" },
+                "rating": { "type": "number" },
+                "rating_count": { "type": "number" },
+                "release_date": { "type": "string" }
             },
             "required": [
                 "cover_image_path",
@@ -61,32 +36,23 @@
                 "rating",
                 "rating_count",
                 "release_date"
-            ],
-            "type": "object"
+            ]
         },
         "GameDeveloper": {
+            "type": "object",
             "additionalProperties": false,
             "properties": {
-                "developerName": {
-                    "type": "string"
-                },
-                "gameId": {
-                    "type": "number"
-                },
-                "roleDescription": {
-                    "type": "string"
-                },
-                "roleName": {
-                    "type": "string"
-                }
+                "developerName": { "type": "string" },
+                "gameId": { "type": "number" },
+                "roleDescription": { "type": "string" },
+                "roleName": { "type": "string" }
             },
             "required": [
                 "developerName",
                 "gameId",
                 "roleDescription",
                 "roleName"
-            ],
-            "type": "object"
+            ]
         },
         "SignUpBody": {
             "type": "object",
@@ -105,7 +71,38 @@
                 "code": { "type": "string" }
             },
             "required": ["username", "code"]
-            } 
+        },
+        "SignInBody": {
+            "type": "object",
+            "properties": {
+                "username": { "type": "string" },
+                "password": { "type": "string" }
+            },
+            "required": ["username", "password"]
+        },
+        "GameUpdate": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "id": { "type": "number" },
+                "cover_image_path": { "type": "string" },
+                "description": { "type": "string" },
+                "developer": { "type": "string" },
+                "genre_ids": {
+                    "type": "array",
+                    "items": { "type": "number" }
+                },
+                "is_multiplayer": { "type": "boolean" },
+                "name": { "type": "string" },
+                "platform": { "type": "string" },
+                "popularity": { "type": "number" },
+                "publisher": { "type": "string" },
+                "rating": { "type": "number" },
+                "rating_count": { "type": "number" },
+                "release_date": { "type": "string" }
+            },
+            "required": []
+        }
     }
 }
 
