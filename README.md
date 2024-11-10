@@ -38,7 +38,7 @@ GET /games - Retrieve all games.
 GET /games/{gameId} - Retrieve details of a specific game by its ID.
 DELETE /games/{gameId} - Delete a specific game entry.
 GET /games/developers - Retrieve information about game developers.
-PUT /games/{gameId} - Update the details of a specific game. (To be implemented in the future)
+PUT /games/{gameId} - Update the details of a specific game.
  
 ### Update constraint (if relevant).
 
