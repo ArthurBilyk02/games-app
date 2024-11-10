@@ -1,27 +1,12 @@
-# Welcome to your CDK TypeScript project
-
-This is a blank project for CDK development with TypeScript.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-## Useful commands
-
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
-
 ## Serverless REST Assignment - Distributed Systems.
 
-__Name:__ ....your name .....
+__Name:__ Arthur Bilyk
 
-__Demo:__ ... link to your YouTube video demonstration ......
+__Demo:__ https://youtu.be/K98MPIkY2ng
+          Link for signout request: https://youtu.be/JwPahKFAzuA
 
 ### Context.
 
-State the context you chose for your web API and detail the attributes stored in the main database table.
 The context for this web API is a gaming application that stores and manages details about games and game developers. The main database table, Games, stores attributes such as:
 
     id: Unique identifier for each game
@@ -48,7 +33,6 @@ Another table, GameDeveloper, manages developer-specific data and relationships 
 
 ### App API endpoints.
 
-[ Provide a bullet-point list of the app's endpoints (excluding the Auth API) you have successfully implemented. ]
 POST /games - Add a new game entry to the database.
 GET /games - Retrieve all games.
 GET /games/{gameId} - Retrieve details of a specific game by its ID.
