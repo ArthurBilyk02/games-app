@@ -1,6 +1,6 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, UpdateCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 import Ajv from "ajv";
 import schema from "../shared/types.schema.json";
 
@@ -42,7 +42,43 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       };
     }
 
-    const gameIdNumber = Number(gameId);
+
+    const userId = (event.requestContext as any).authorizer?.claims?.sub;
+    console.log("Token userId:", userId);
+
+    if (!userId) {
+      return {
+        statusCode: 403,
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ message: "User not authenticated" }),
+      };
+    }
+
+    const existingItem = await ddbDocClient.send(
+        new GetCommand({
+          TableName: process.env.TABLE_NAME,
+          Key: { id: Number(gameId) },
+        })
+      );
+      if (!existingItem.Item) {
+        return {
+          statusCode: 404,
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ message: "Game not found" }),
+        };
+      }
+
+      console.log("Stored userId in item:", existingItem.Item.userId);
+  
+      if (existingItem.Item.userId !== userId) {
+        return {
+          statusCode: 403,
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ message: "Unauthorized update attempt" }),
+        };
+      }
+
+    //const gameIdNumber = Number(gameId);
 
     const updateExpression = `SET ${Object.keys(body).map((key, i) => `#field${i} = :value${i}`).join(", ")}`;
     const expressionAttributeNames = Object.keys(body).reduce(
@@ -56,7 +92,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
     const command = new UpdateCommand({
       TableName: process.env.TABLE_NAME,
-      Key: { id: gameIdNumber },
+      Key: { id: Number(gameId) },
       UpdateExpression: updateExpression,
       ExpressionAttributeNames: expressionAttributeNames,
       ExpressionAttributeValues: expressionAttributeValues,

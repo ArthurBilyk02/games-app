@@ -20,7 +20,8 @@
                 "publisher": { "type": "string" },
                 "rating": { "type": "number" },
                 "rating_count": { "type": "number" },
-                "release_date": { "type": "string" }
+                "release_date": { "type": "string" },
+                "userId": { "type": "string" }
             },
             "required": [
                 "cover_image_path",
@@ -35,7 +36,8 @@
                 "publisher",
                 "rating",
                 "rating_count",
-                "release_date"
+                "release_date",
+                "userId"
             ]
         },
         "GameDeveloper": {
@@ -99,9 +101,10 @@
                 "publisher": { "type": "string" },
                 "rating": { "type": "number" },
                 "rating_count": { "type": "number" },
-                "release_date": { "type": "string" }
+                "release_date": { "type": "string" },
+                "userId": { "type": "string" }
             },
-            "required": []
+            "required": ["userId"]
         }
     }
 }

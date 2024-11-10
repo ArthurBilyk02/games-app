@@ -221,7 +221,7 @@ translateGameFn.addToRolePolicy(
     gamesTable.grantReadData(getGameDevelopersFn);
     gamesTable.grantReadWriteData(newGameFn);
     gamesTable.grantWriteData(deleteGameFn);
-    gamesTable.grantWriteData(updateGameFn);
+    gamesTable.grantReadWriteData(updateGameFn);
     gamesTable.grantReadWriteData(translateGameFn);
 
     // new cdk.CfnOutput(this, "Games Function Url", { value: gamesFnURL.url });
@@ -240,6 +240,10 @@ translateGameFn.addToRolePolicy(
       allowCredentials: true,
       allowOrigins: ["*"],
     },
+  });
+
+  const auth = new apig.CognitoUserPoolsAuthorizer(this, 'GameApiAuthorizer', {
+    cognitoUserPools: [userPool],
   });
 
   this.auth = api.root.addResource("auth");
@@ -279,7 +283,8 @@ translateGameFn.addToRolePolicy(
 
   gamesEndpoint.addMethod(
     "POST",
-    new apig.LambdaIntegration(newGameFn, { proxy: true })
+    new apig.LambdaIntegration(newGameFn, { proxy: true }),
+    { authorizer: auth }
   );
 
   gameEndpoint.addMethod(
@@ -289,7 +294,8 @@ translateGameFn.addToRolePolicy(
 
   gameEndpoint.addMethod(
     "PUT",
-    new apig.LambdaIntegration(updateGameFn, { proxy: true })
+    new apig.LambdaIntegration(updateGameFn, { proxy: true }),
+    { authorizer: auth }
   );
 
 const translationEndpoint = gameEndpoint.addResource("translation");

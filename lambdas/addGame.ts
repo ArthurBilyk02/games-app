@@ -37,12 +37,27 @@ export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
       };
     }
 
-    const commandOutput = await ddbDocClient.send(
+    const userId = (event.requestContext as any).authorizer?.claims?.sub;
+    console.log("Token userId:", userId);
+
+    if (!userId) {
+      return {
+        statusCode: 403,
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ message: "User not authorized" }),
+      };
+    }
+
+    const item = { ...body, userId };
+    console.log("Stored userId in item:", item.userId);
+
+    await ddbDocClient.send(
       new PutCommand({
         TableName: process.env.TABLE_NAME,
-        Item: body,
+        Item: item,
       })
     );
+    
     return {
       statusCode: 201,
       headers: {
