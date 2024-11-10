@@ -14,7 +14,8 @@ export const games : Game[] = [
     rating_count: 1520,
     developer: "DICE",
     publisher: "Electronic Arts",
-    is_multiplayer: true
+    is_multiplayer: true,
+    userId: "defaultUserId"
   },
   {
     id: 2,
@@ -29,7 +30,8 @@ export const games : Game[] = [
     rating_count: 3400,
     developer: "CD Projekt Red",
     publisher: "CD Projekt",
-    is_multiplayer: false
+    is_multiplayer: false,
+    userId: "defaultUserId"
   },
   {
     id: 3,
@@ -44,7 +46,8 @@ export const games : Game[] = [
     rating_count: 2750,
     developer: "Nintendo",
     publisher: "Nintendo",
-    is_multiplayer: true
+    is_multiplayer: true,
+    userId: "defaultUserId"
   },
   {
     id: 4,
@@ -59,7 +62,8 @@ export const games : Game[] = [
     rating_count: 2500,
     developer: "CD Projekt Red",
     publisher: "CD Projekt",
-    is_multiplayer: false
+    is_multiplayer: false,
+    userId: "defaultUserId"
   },
   {
     id: 5,
@@ -74,7 +78,8 @@ export const games : Game[] = [
     rating_count: 1980,
     developer: "Blizzard Entertainment",
     publisher: "Blizzard Entertainment",
-    is_multiplayer: true
+    is_multiplayer: true,
+    userId: "defaultUserId"
   },
 {
     id: 6,
@@ -89,7 +94,8 @@ export const games : Game[] = [
     rating_count: 4100,
     developer: "Rockstar Games",
     publisher: "Rockstar Games",
-    is_multiplayer: true
+    is_multiplayer: true,
+    userId: "defaultUserId"
 },
 {
     id: 7,
@@ -104,7 +110,8 @@ export const games : Game[] = [
     rating_count: 3200,
     developer: "Nintendo",
     publisher: "Nintendo",
-    is_multiplayer: false
+    is_multiplayer: false,
+    userId: "defaultUserId"
 },
 {
     id: 8,
@@ -119,7 +126,8 @@ export const games : Game[] = [
     rating_count: 2900,
     developer: "Nintendo",
     publisher: "Nintendo",
-    is_multiplayer: false
+    is_multiplayer: false,
+    userId: "defaultUserId"
 },
 {
     id: 9,
@@ -134,7 +142,8 @@ export const games : Game[] = [
     rating_count: 1500,
     developer: "Epic Games",
     publisher: "Epic Games",
-    is_multiplayer: true
+    is_multiplayer: true,
+    userId: "defaultUserId"
 },
 {
     id: 10,
@@ -149,7 +158,8 @@ export const games : Game[] = [
     rating_count: 3600,
     developer: "Mojang Studios",
     publisher: "Mojang Studios",
-    is_multiplayer: true
+    is_multiplayer: true,
+    userId: "defaultUserId"
 }
 ]
 

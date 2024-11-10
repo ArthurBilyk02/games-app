@@ -22,25 +22,48 @@ __Demo:__ ... link to your YouTube video demonstration ......
 ### Context.
 
 State the context you chose for your web API and detail the attributes stored in the main database table.
+The context for this web API is a gaming application that stores and manages details about games and game developers. The main database table, Games, stores attributes such as:
+
+    id: Unique identifier for each game
+    name: Title of the game
+    description: Brief summary of the game
+    developer: Name of the game's developer
+    publisher: Game's publisher
+    genre_ids: Array of genre identifiers
+    platform: Platform on which the game is available
+    release_date: Game release date
+    rating: Average rating
+    rating_count: Number of ratings
+    is_multiplayer: Boolean indicating multiplayer capability
+    cover_image_path: Path to the game's cover image
+    popularity: Popularity score of the game
+    userId: Provides a unique id to show who created the table
+
+Another table, GameDeveloper, manages developer-specific data and relationships to games, with attributes such as:
+
+    developerName: Name of the developer
+    gameId: Identifier of the related game
+    roleName: Role of the developer
+    roleDescription: Description of the developer's role
 
 ### App API endpoints.
 
 [ Provide a bullet-point list of the app's endpoints (excluding the Auth API) you have successfully implemented. ]
-e.g.
+POST /games - Add a new game entry to the database.
+GET /games - Retrieve all games.
+GET /games/{gameId} - Retrieve details of a specific game by its ID.
+DELETE /games/{gameId} - Delete a specific game entry.
+GET /games/developers - Retrieve information about game developers.
+PUT /games/{gameId} - Update the details of a specific game. (To be implemented in the future)
  
-+ POST /thing - add a new 'thing'.
-+ GET /thing/{partition-key}/ - Get all the 'things' with a specified partition key.
-+ GEtT/thing/{partition-key}?attributeX=value - Get all the 'things' with a specified partition key value and attributeX satisfying the condition .....
-
 ### Update constraint (if relevant).
 
-[Briefly explain your design for the solution to the PUT/Update constraint 
-- only the user who added an item to the main table could update it.]
+For updates, only the user who initially added a game entry to the database is authorized to modify it. This is enforced by validating the userId from the JWT token against the userId stored with each game entry, ensuring that only the original creator can update their entries.
 
 ### Translation persistence (if relevant).
 
-[Briefly explain your design for the solution to avoid repeat requests to Amazon Translate - persist translations so that Amazon Translate can be bypassed for repeat translation requests.]
+To reduce redundant requests to Amazon Translate, translations are persisted in the database upon the first translation request. If a user requests the same translation again, it retrieves the stored translation, bypassing Amazon Translate and optimizing both speed and cost.
 
 ###  Extra (If relevant).
 
-[ State whether you have created a multi-stack solution for this assignment or used lambda layers to speed up update deployments. Also, mention any aspect of the CDK framework __that was not covered in the lectures that you used in this assignment. ]
+ddbDocClient was used in each lambda to reduce deployment times.
